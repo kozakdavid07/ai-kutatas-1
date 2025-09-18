@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI lehetőségek KKV szektorban - kutatás</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #0f172a;
+            background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 50%, #f8fafc 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: transparent;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.6);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+            padding: 12px 24px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            height: 32px;
+            width: 32px;
+            border-radius: 12px;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .logo-text {
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        .nav {
+            display: none;
+            align-items: center;
+            gap: 24px;
+            font-size: 14px;
+        }
+
+        .nav a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: #334155;
+        }
+
+        .header-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 12px;
+            background: #0f172a;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .header-cta:hover {
+            background: #1e293b;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 64px 24px 96px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero-subtitle {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .hero-description {
+            color: #64748b;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 65ch;
+            margin-bottom: 24px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 16px;
+            background: #0f172a;
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: #1e293b;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 16px;
+            border: 1px solid #cbd5e1;
+            background: transparent;
+            color: #0f172a;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #f8fafc;
+        }
+
+        .hero-note {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Cards */
+        .card {
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-card {
+            position: relative;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-radius: 24px;
+            background: linear-gradient(to top right, #e2e8f0, #f1f5f9, transparent);
+            filter: blur(32px);
+            opacity: 0.5;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            width: 24px;
+            height: 24px;
+            color: #64748b;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .card-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 16px 0;
+        }
+
+        .card-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card-list li {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .card-list .check-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            color: #059669;
+        }
+
+        .card-result {
+            border-radius: 12px;
+            background: #f8fafc;
+            padding: 16px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* Sections */
+        .section {
+            padding: 48px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: -0.025em;
+            margin-bottom: 24px;
+        }
+
+        .section-border {
+            border-top: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        /* Grid layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .feature-card {
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .feature-icon {
+            height: 40px;
+            width: 40px;
+            border-radius: 16px;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .feature-text {
+            color: #64748b;
+            margin-top: 12px;
+        }
+
+        .bullet-card {
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+        }
+
+        .bullet-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .bullet-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .bullet-text {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .step-card {
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .step-number {
+            height: 36px;
+            width: 36px;
+            border-radius: 50%;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .step-text {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid #e2e8f0;
+            padding: 32px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-links a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #374151;
+        }
+
+        /* Icons (simple SVG replacements) */
+        .icon-check::before { content: "✓"; color: #059669; font-weight: bold; }
+        .icon-clock::before { content: "🕐"; }
+        .icon-building::before { content: "🏢"; }
+        .icon-book::before { content: "📚"; }
+        .icon-shield::before { content: "🛡️"; }
+        .icon-arrow::before { content: "→"; }
+        .icon-mouse::before { content: "👆"; }
+
+        /* Responsive */
+        @media (min-width: 640px) {
+            .hero-buttons {
+                flex-direction: row;
+            }
+
+            .nav {
+                display: flex;
+            }
+
+            .footer-content {
+                flex-direction: row;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .hero {
+                padding: 96px 24px;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 5rem;
+            }
+
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Contact section specific */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .contact-note {
+            margin-top: 16px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        @media (min-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .contact-buttons {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">AI</div>
+                <span class="logo-text">AI lehetőségek KKV-knak</span>
+            </div>
+            <nav class="nav">
+                <a href="#miert">Miért?</a>
+                <a href="#mit-nyer">Mit nyer?</a>
+                <a href="#cel">Cél</a>
+                <a href="#hogyan">Hogyan?</a>
+            </nav>
+            <a href="https://cal.com/dd-david-kozak/ai-kutatas" class="header-cta">
+                Jelentkezem <span class="icon-arrow"></span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <p class="hero-subtitle">Kereskedelmi és Iparkamara közreműködésével</p>
+                <h1>
+                    Vegyen részt az <span style="background: linear-gradient(to right, #0f172a, #64748b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">AI lehetőségeket feltáró kutatásban</span>
+                </h1>
+                <p class="hero-description">
+                    30–45 perces, díjmentes beszélgetés KKV-knak: átvilágítjuk a működést, feltárjuk az AI használható pontjait, és képet adunk a megvalósítás ráfordításairól.
+                </p>
+                <div class="hero-buttons">
+                    <a href="https://cal.com/dd-david-kozak/ai-kutatas" class="btn-primary">
+                        Jelentkezem az interjúra
+                        <span class="icon-mouse"></span>
+                    </a>
+                    <a href="#hogyan" class="btn-secondary">
+                        Hogyan zajlik?
+                    </a>
+                </div>
+                <div class="hero-note">Az interjú végén rövid, személyre szabott összefoglalót kap.</div>
+            </div>
+
+            <div class="info-card card">
+                <div class="card-header">
+                    <span class="icon-clock"></span>
+                    <div>
+                        <div class="card-title">Időtartam</div>
+                        <div class="card-subtitle">30–45 perc (online vagy személyesen)</div>
+                    </div>
+                </div>
+                <div class="card-divider"></div>
+                <ul class="card-list">
+                    <li><span class="icon-check"></span><span><strong>Feltárás:</strong> a cég folyamatai és AI lehetőségek azonosítása</span></li>
+                    <li><span class="icon-check"></span><span><strong>Költségbecslés:</strong> várható ráfordítások és megtérülési pontok</span></li>
+                    <li><span class="icon-check"></span><span><strong>Tudásakadályok:</strong> belső tudás hiányainak beazonosítása</span></li>
+                </ul>
+                <div class="card-result">
+                    Eredmény: 1 oldalas összefoglaló az ajánlott AI hasznosítási területekkel és következő lépésekkel.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why + Benefits -->
+    <section id="miert" class="section section-border">
+        <div class="grid-3">
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon"><span class="icon-building"></span></div>
+                    <h3 class="feature-title">Gyakorlati fókusz KKV-knak</h3>
+                </div>
+                <p class="feature-text">Valódi működési helyzetekre adunk AI-javaslatokat – nem buzzwordök, hanem megvalósítható lépések.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon"><span class="icon-book"></span></div>
+                    <h3 class="feature-title">Oktatóanyag készül belőle</h3>
+                </div>
+                <p class="feature-text">A validált példákból közérthető útmutató születik, KKV-vezetők nyelvén.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon"><span class="icon-shield"></span></div>
+                    <h3 class="feature-title">Díjmentes és biztonságos</h3>
+                </div>
+                <p class="feature-text">A beszélgetés ingyenes; az üzleti titkokat bizalmasan kezeljük.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What you get -->
+    <section id="mit-nyer" class="section">
+        <h2 class="section-title">Mit nyer a cég?</h2>
+        <div class="grid-2">
+            <div class="bullet-card">
+                <div class="bullet-header">
+                    <span class="icon-check"></span>
+                    <div>
+                        <div class="bullet-title">30–45 perces szakmai beszélgetés</div>
+                        <div class="bullet-text">Folyamatok feltárása, AI-alapú idő- és költségmegtakarítási pontok.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="bullet-card">
+                <div class="bullet-header">
+                    <span class="icon-check"></span>
+                    <div>
+                        <div class="bullet-title">Költségbecslés</div>
+                        <div class="bullet-text">Konkrét kép a bevezetés várható ráfordításairól és ROI-ról.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="bullet-card">
+                <div class="bullet-header">
+                    <span class="icon-check"></span>
+                    <div>
+                        <div class="bullet-title">Tudáshiányok feltérképezése</div>
+                        <div class="bullet-text">Mi kell ahhoz, hogy akár házon belül is elinduljanak?</div>
+                    </div>
+                </div>
+            </div>
+            <div class="bullet-card">
+                <div class="bullet-header">
+                    <span class="icon-check"></span>
+                    <div>
+                        <div class="bullet-title">1 oldalas összefoglaló</div>
+                        <div class="bullet-text">Ajánlott AI-használati területek és következő lépések.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 32px;">
+            <a href="https://cal.com/dd-david-kozak/ai-kutatas" class="btn-primary">
+                Jelentkezem az interjúra <span class="icon-arrow"></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Goal -->
+    <section id="cel" class="section section-border">
+        <h2 class="section-title">Mi a cél?</h2>
+        <ul class="card-list" style="margin-top: 24px;">
+            <li><span class="icon-check"></span>Gyakorlati példák és igények összegyűjtése a KKV szektorból</li>
+            <li><span class="icon-check"></span>Oktató- és segédanyag kidolgozása: hogyan használják a KKV-k az AI-t</li>
+            <li><span class="icon-check"></span>Valódi, hasznos esettanulmányok készítése a résztvevők visszajelzése alapján</li>
+        </ul>
+    </section>
+
+    <!-- How it works -->
+    <section id="hogyan" class="section">
+        <h2 class="section-title">Hogyan zajlik?</h2>
+        <div class="grid-3">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Időpont egyeztetés</h3>
+                </div>
+                <p class="step-text">Kattintson a jelentkezésre, és egyeztetünk egy 30–45 perces sávot (online/személyes).</p>
+            </div>
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Interjú</h3>
+                </div>
+                <p class="step-text">Strukturált beszélgetés a működésről, AI lehetőségek és költségek feltárása.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Összefoglaló</h3>
+                </div>
+                <p class="step-text">1 oldalas ajánlás a javasolt területekről és következő lépésekről.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Form -->
+    <section id="jelentkezes" class="section section-border">
+        <div class="contact-grid">
+            <div>
+                <h2 class="section-title">Jelentkezés</h2>
+                <p style="color: #64748b;">Foglaljon időpontot egyszerűen és gyorsan a Cal.com linkkel, vagy küldjön email üzenetet.</p>
+                <div class="contact-buttons">
+                    <a href="https://cal.com/dd-david-kozak/ai-kutatas" class="btn-primary">
+                        📅 Időpont foglalás
+                    </a>
+                    <a href="mailto:digitdraft@gmail.com?subject=AI lehetőségeket feltáró interjú&body=Kedves Dávid,%0D%0A%0D%0ASzeretnék részt venni az AI lehetőségeket feltáró interjún.%0D%0A%0D%0ACég neve:%0D%0AKapcsolattartó neve:%0D%0AEmail/Telefon:%0D%0ARöviden a cég működéséről:%0D%0APreferált időpont(ok):" class="btn-secondary">
+                        Email küldése
+                    </a>
+                </div>
+                <p class="contact-note">Adatvédelem: a megosztott információkat bizalmasan kezeljük, kizárólag a kutatás és az összefoglaló céljára használjuk fel.</p>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 16px; font-size: 18px; font-weight: 600;">Kapcsolat</h3>
+                <div style="margin-bottom: 16px;">
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Kozák Dávid</div>
+                    <div style="color: #64748b; font-size: 14px;">AI szakértő és kutató</div>
+                </div>
+                <div style="space-y: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <span>📧</span>
+                        <a href="mailto:digitdraft@gmail.com" style="color: #64748b; text-decoration: none;">digitdraft@gmail.com</a>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span>📞</span>
+                        <a href="tel:+36305526066" style="color: #64748b; text-decoration: none;">+36 30 552 6066</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>© 2024 AI lehetőségek KKV-knak</div>
+            <div class="footer-links">
+                <a href="mailto:digitdraft@gmail.com">Kapcsolat</a>
+                <span style="color: #cbd5e1;">•</span>
+                <a href="#adatkezeles">Adatkezelés</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
